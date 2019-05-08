@@ -1,4 +1,7 @@
-if( Boost_FOUND AND Qt5Widgets_FOUND )
+if( Boost_FOUND 
+	AND Qt5Widgets_FOUND 
+	AND OpenGL_FOUND 
+)
 
 	message(STATUS "\n ############ SETTING UP MAIN MODULE ############ ")
 	message(STATUS "DEPENDENCIES : ${DEPENDENCIES}") 
@@ -15,37 +18,44 @@ if( Boost_FOUND AND Qt5Widgets_FOUND )
 	message(STATUS "Qt5Widgets_COMPILE_DEFINITIONS : ${Qt5Widgets_COMPILE_DEFINITIONS}")
 	# String of flags to be used when building executables.
 	message(STATUS "Qt5Widgets_EXECUTABLE_COMPILE_FLAGS : ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-
-        #set(DEPENDENCIES
-        #  .
+	
+    #set(DEPENDENCIES
+    #  .
 	#  ..
-        #  ../source/*.cpp
-        #  ../source/*.h
+    #  ../source/*.cpp
+    #  ../source/*.h
 	#)
 	add_executable( 
 		${EXECUTABLE_NAME} 
 		${DEPENDENCIES} 
-                ${QT_DEPS}
-        )
+        ${QT_DEPS}
+	)
 	target_compile_features(
 		${EXECUTABLE_NAME} 
-                PRIVATE cxx_std_14
-        )
-        message(STATUS "Qt5Widgets_INCLUDE_DIRS : ${Qt5Widgets_INCLUDE_DIRS}")
-        target_include_directories(
-                ${EXECUTABLE_NAME}
-                PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-                PRIVATE ${Boost_INCLUDE_DIRS}
-                PRIVATE ${Qt5Widgets_INCLUDE_DIRS}
-        )
-        target_link_libraries(
+		PRIVATE cxx_std_14
+	)
+	
+	message(STATUS "OPENGL_INCLUDE_DIRS : ${OPENGL_INCLUDE_DIRS}")
+	target_include_directories(
+		${EXECUTABLE_NAME}
+		PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
+		PRIVATE ${Boost_INCLUDE_DIRS}
+		PRIVATE ${Qt5Widgets_INCLUDE_DIRS}
+		PRIVATE ${OPENGL_INCLUDE_DIRS}
+	)
+	
+	message(STATUS "OPENGL_LIBRARIES : ${OPENGL_LIBRARIES}")
+	target_link_libraries(
 		${EXECUTABLE_NAME} 
 		PRIVATE ${Boost_LIBRARIES} 
 		PRIVATE ${Qt5Widgets_LIBRARIES}
+		PRIVATE ${OPENGL_LIBRARIES}
 	)
 	
 elseif( NOT Boost_FOUND)
 	message(STATUS "cannot find Boost!!!!!!!!!!!")
 elseif( NOT Qt5Widgets_FOUND)
 	message(STATUS "cannot find Qt5Widgets!!!!!!!!!!!")
+elseif( NOT OpenGL_FOUND)
+	message(STATUS "cannot find OpenGL!!!!!!!!!!!")
 endif()

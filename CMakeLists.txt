@@ -35,11 +35,13 @@ find_package(Boost 1.69.0 REQUIRED COMPONENTS system filesystem unit_test_framew
 set(CMAKE_INCLUDE_CURRENT_DIR ON)	# Find includes in corresponding build directories
 set(CMAKE_AUTOMOC ON)	# Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOUIC OFF)	# Create code from a list of Qt designer ui files
-find_package(Qt5 REQUIRED COMPONENTS Widgets OpenGL)	# Find the QtWidgets library
+find_package(Qt5 REQUIRED COMPONENTS Widgets OpenGL Core GUI)	# Find the QtWidgets library
 
 #-----------------------------------------------------------------------------
 # OpenGL & GLEW library
-find_package(OpenGL)
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+#find_package(glfw3 REQUIRED)
 
 #-----------------------------------------------------------------------------
 # look for dependencies
@@ -48,7 +50,7 @@ message(STATUS "DEPENDENCIES : ${DEPENDENCIES}")
 
 #-----------------------------------------------------------------------------
 # VS related
-# set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 #-----------------------------------------------------------------------------
 # Application
