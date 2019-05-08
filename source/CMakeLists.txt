@@ -19,6 +19,8 @@ if( Boost_FOUND
 	# String of flags to be used when building executables.
 	message(STATUS "Qt5Widgets_EXECUTABLE_COMPILE_FLAGS : ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 	
+    
+
     #set(DEPENDENCIES
     #  .
 	#  ..
@@ -30,6 +32,26 @@ if( Boost_FOUND
 		${DEPENDENCIES} 
         ${QT_DEPS}
 	)
+    
+    set_target_properties( 
+        ${EXECUTABLE_NAME} 
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    )
+    
+    #message(STATUS "Copying shaders for target: ${EXECUTABLE_NAME} into ${CMAKE_CURRENT_BINARY_DIR}")
+    message(STATUS "CMAKE_CURRENT_SOURCE_DIR : ${CMAKE_CURRENT_SOURCE_DIR}")
+    message(STATUS "CMAKE_CURRENT_BINARY_DIR : ${CMAKE_CURRENT_BINARY_DIR}")
+    add_custom_target(
+        copy_shader_files
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/shaders ${CMAKE_CURRENT_BINARY_DIR}/shaders
+        COMMENT "Copying Shader-Directory for target: ${EXECUTABLE_NAME} into ${CMAKE_CURRENT_BINARY_DIR}/shaders" VERBATIM 
+    )
+    add_dependencies(
+        ${EXECUTABLE_NAME} 
+        copy_shader_files
+    )
+    
 	target_compile_features(
 		${EXECUTABLE_NAME} 
 		PRIVATE cxx_std_14
@@ -51,6 +73,7 @@ if( Boost_FOUND
 		PRIVATE ${Qt5Widgets_LIBRARIES}
 		PRIVATE ${OPENGL_LIBRARIES}
 	)
+    
 	
 elseif( NOT Boost_FOUND)
 	message(STATUS "cannot find Boost!!!!!!!!!!!")

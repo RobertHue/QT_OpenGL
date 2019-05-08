@@ -31,6 +31,8 @@ public:
 	virtual void paintGL();							///to issue OpenGL commands or draw using QPainter
 	virtual void resizeGL(int width, int height);	///to set up the transformation matrices and other window size dependent resources
 	void teardownGL();								///to destroy opengl buffers and objects
+protected slots:
+	void update();
 
 private:
 	// OpenGL State Information
@@ -55,6 +57,7 @@ private:
 	typedef std::chrono::high_resolution_clock::time_point TimePoint;
 	typedef std::chrono::duration<double> dSeconds;
 	TimePoint m_time;
+	dSeconds  m_elapsedTime;
 };
 
 #endif // WINDOW_H
