@@ -17,14 +17,14 @@
 class QOpenGLShaderProgram;
 
 
-class Window 
-	: 
+class Window
+	:
 	public QOpenGLWindow,
 	protected QOpenGLFunctions_4_5_Core
 {
 	Q_OBJECT
-		
-	// OpenGL Events
+
+		// OpenGL Events
 public:
 	Window(QWindow* parent = 0);
 	~Window();

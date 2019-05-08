@@ -8,6 +8,6 @@ uniform mat4 worldToView;
 
 void main()
 {  
-  gl_Position = worldToView * modelToWorld * vec4(position, 1.0);
-  vColor = vec4(color, 1.0);
+	gl_Position = worldToView * modelToWorld * vec4(position, 1.0);
+	vColor = vec4(color, 1.0);
 }
