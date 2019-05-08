@@ -1,5 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+// see tutorial: https://www.trentreed.net/topics/opengl/
 
 #include <chrono>
 

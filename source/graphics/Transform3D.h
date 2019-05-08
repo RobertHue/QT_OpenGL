@@ -1,5 +1,6 @@
 #ifndef TRANSFORM3D_H
 #define TRANSFORM3D_H
+// see tutorial: https://www.trentreed.net/topics/opengl/
 
 #include <QVector3D>
 #include <QQuaternion>

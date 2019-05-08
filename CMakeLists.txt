@@ -56,3 +56,7 @@ add_subdirectory("source")
 #-----------------------------------------------------------------------------
 # Testing
 #add_subdirectory("tests")
+
+#find_package(unofficial-graphicsmagick CONFIG REQUIRED)
+#target_link_libraries(main PRIVATE unofficial::graphicsmagick::graphicsmagick)
+
