@@ -1,4 +1,5 @@
-#include "QT/MainWindow.h"
+#include "graphics/Window.h"
+#include "graphics/Vertex.h"
 
 #include <iostream>
 #include <cmath>
@@ -9,7 +10,6 @@
 
 #include <QOpenGLShaderProgram>
 
-#include "QT/Vertex.h"
 
 // Create a colored triangle
 static const Vertex sg_vertexes[] = {
@@ -18,10 +18,10 @@ static const Vertex sg_vertexes[] = {
   Vertex(QVector3D(-0.75f, -0.75f, 1.0f), QVector3D(0.0f, 0.0f, 1.0f))
 };
 
-MainWindow::MainWindow(QWindow* parent)
+Window::Window(QWindow* parent)
 	//:	
 {
-	std::cout << "MainWindow" << std::endl;
+	std::cout << "Window" << std::endl;
 
 	// Tell Qt we will use OpenGL for this window
 	//setSurfaceType(OpenGLSurface);
@@ -51,14 +51,14 @@ MainWindow::MainWindow(QWindow* parent)
 	//resizeGL();*/
 }
 
-MainWindow::~MainWindow()
+Window::~Window()
 {
-	std::cout << "~MainWindow" << std::endl;  
+	std::cout << "~Window" << std::endl;  
 	makeCurrent();
 	teardownGL();
 }
 
-void MainWindow::initializeGL()
+void Window::initializeGL()
 {
 	std::cout << "init" << std::endl;
 
@@ -104,7 +104,7 @@ void MainWindow::initializeGL()
 	}
 }
 
-void MainWindow::paintGL()
+void Window::paintGL()
 {
 	dSeconds secs = Clock::now() - m_time;	// get elapsed time
 	std::cout << "paintGL t : " << std::fixed << secs.count() << std::endl;
@@ -132,7 +132,7 @@ void MainWindow::paintGL()
 	update();
 }
 
-void MainWindow::resizeGL(int width, int height)
+void Window::resizeGL(int width, int height)
 {
 	std::cout << "resizeGL" << std::endl;  
 	
@@ -141,7 +141,7 @@ void MainWindow::resizeGL(int width, int height)
 	(void)height;
 }
 
-void MainWindow::teardownGL()
+void Window::teardownGL()
 {  
 	// Actually destroy our OpenGL information
 	m_object.destroy();
@@ -153,7 +153,7 @@ void MainWindow::teardownGL()
  * Private Helpers
  ******************************************************************************/
 
-void MainWindow::printContextInformation()
+void Window::printContextInformation()
 {
 	QString glType;
 	QString glVersion;

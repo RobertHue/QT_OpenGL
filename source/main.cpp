@@ -1,5 +1,5 @@
 #include <iostream>
-#include "QT/MainWindow.h"
+#include "graphics/Window.h"
 #include <QApplication>
 
 int main(int argc, char** argv) {
@@ -7,10 +7,10 @@ int main(int argc, char** argv) {
 
 	QApplication app(argc, argv);
 
-	MainWindow w;
-	w.setTitle("3D-Content_Creator");
-	w.resize(800, 600);
-	w.show();
+	Window mainWindow;
+	mainWindow.setTitle("3D-Content_Creator");
+	mainWindow.resize(800, 600);
+	mainWindow.show();
 
 	return app.exec();
 }
