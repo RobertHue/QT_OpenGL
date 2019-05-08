@@ -26,12 +26,12 @@ class Window
 
 				// OpenGL Events
 public:
-		Window(QWindow* parent = 0);
-		~Window();
-		virtual void initializeGL();					///to perform OpenGL resource initialization
-		virtual void paintGL();							///to issue OpenGL commands or draw using QPainter
-		virtual void resizeGL(int width, int height);	///to set up the transformation matrices and other window size dependent resources
-		void teardownGL();								///to destroy opengl buffers and objects
+	Window(QWindow* parent = 0);
+	~Window();
+	virtual void initializeGL();					///to perform OpenGL resource initialization
+	virtual void paintGL();							///to issue OpenGL commands or draw using QPainter
+	virtual void resizeGL(int width, int height);	///to set up the transformation matrices and other window size dependent resources
+	void teardownGL();								///to destroy opengl buffers and objects
 protected slots:
 		void update();
 
