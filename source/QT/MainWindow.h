@@ -1,10 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QOpenGLWindow>
 #include <chrono>
+
+#include <QOpenGLWindow>
+
 #include <QOpenGLFunctions>
 #include <QOpenGLFunctions_4_5_Core>
+
+#include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
+
+class QOpenGLShaderProgram;
 
 /**
 A typical application will subclass QOpenGLWindow and reimplement the following virtual functions:
@@ -42,7 +49,12 @@ private:
 	void printContextInformation();
 
 private:
-	static constexpr GLfloat red[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	static constexpr GLfloat red[] = { 1.0f, 0.0f, 0.0f, 1.0f };  
+	
+	// OpenGL State Information
+	QOpenGLBuffer m_vertex;
+	QOpenGLVertexArrayObject m_object;
+	QOpenGLShaderProgram* m_program;
 
 private:
 	typedef std::chrono::high_resolution_clock Clock;

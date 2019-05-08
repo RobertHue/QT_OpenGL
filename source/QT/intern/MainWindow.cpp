@@ -3,9 +3,20 @@
 #include <iostream>
 #include <cmath>
 
+#include <QDir>
 #include <QDebug>
 #include <QString>
 
+#include <QOpenGLShaderProgram>
+
+#include "QT/Vertex.h"
+
+// Create a colored triangle
+static const Vertex sg_vertexes[] = {
+  Vertex(QVector3D(0.00f,  0.75f, 1.0f), QVector3D(1.0f, 0.0f, 0.0f)),
+  Vertex(QVector3D(0.75f, -0.75f, 1.0f), QVector3D(0.0f, 1.0f, 0.0f)),
+  Vertex(QVector3D(-0.75f, -0.75f, 1.0f), QVector3D(0.0f, 0.0f, 1.0f))
+};
 
 MainWindow::MainWindow(QWindow* parent)
 	//:	
@@ -60,6 +71,37 @@ void MainWindow::initializeGL()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	m_time = Clock::now();
+
+	// Application-specific initialization
+	{
+		qDebug() << QDir::currentPath();
+
+		// Create Shader (Do not release until VAO is created)
+		m_program = new QOpenGLShaderProgram();
+		m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, "shaders/simple.vert");
+		m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, "shaders/simple.frag");
+		m_program->link();
+		m_program->bind();
+
+		// Create Buffer (Do not release until VAO is created)
+		m_vertex.create();
+		m_vertex.bind();
+		m_vertex.setUsagePattern(QOpenGLBuffer::StaticDraw);
+		m_vertex.allocate(sg_vertexes, sizeof(sg_vertexes));
+
+		// Create Vertex Array Object
+		m_object.create();
+		m_object.bind();
+		m_program->enableAttributeArray(0);
+		m_program->enableAttributeArray(1);
+		m_program->setAttributeBuffer(0, GL_FLOAT, Vertex::positionOffset(), Vertex::PositionTupleSize, Vertex::stride());
+		m_program->setAttributeBuffer(1, GL_FLOAT, Vertex::colorOffset(), Vertex::ColorTupleSize, Vertex::stride());
+
+		// Release (unbind) all
+		m_object.release();
+		m_vertex.release();
+		m_program->release();
+	}
 }
 
 void MainWindow::paintGL()
@@ -72,8 +114,19 @@ void MainWindow::paintGL()
 							  (float)std::cos(secs.count()) * 0.5f + 0.5f,
 							  0.0f, 1.0f };
 
+
+	// Clear
+	glClear(GL_COLOR_BUFFER_BIT);
 	glClearBufferfv(GL_COLOR, 0, color);
 
+	// Render using our shader
+	m_program->bind();
+	{
+		m_object.bind();
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(sg_vertexes) / sizeof(sg_vertexes[0]));
+		m_object.release();
+	}
+	m_program->release();
 
 	// animate continuously: schedule an update
 	update();
@@ -90,7 +143,10 @@ void MainWindow::resizeGL(int width, int height)
 
 void MainWindow::teardownGL()
 {  
-	// Currently we have no data to teardown
+	// Actually destroy our OpenGL information
+	m_object.destroy();
+	m_vertex.destroy();
+	delete m_program;
 }
 
 /*******************************************************************************
