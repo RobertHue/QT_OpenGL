@@ -30,8 +30,8 @@ public:
 	~Window();
 	virtual void initializeGL();					///to perform OpenGL resource initialization
 	virtual void paintGL();							///to issue OpenGL commands or draw using QPainter
-	virtual void resizeGL(int width, int height);	///to set up the transformation matrices and other window size dependent resources
-	void teardownGL();								///to destroy opengl buffers and objects
+    virtual void resizeGL(int width, int height);	///to set up the transformation matrices and other window size dependent resources
+    void teardownGL();								///to destroy opengl buffers and objects
 protected slots:
 	void update();
 
@@ -39,7 +39,7 @@ private:
 	// OpenGL State Information
 	QOpenGLBuffer m_vertex;
 	QOpenGLVertexArrayObject m_object;
-	QOpenGLShaderProgram* m_program;
+    QOpenGLShaderProgram* m_program;
 
 private:
 	// Shader Information
